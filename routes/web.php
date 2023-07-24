@@ -27,8 +27,10 @@ Route::get('/register', function (){
 
 
 
-Route::get('/explore', [NewsController::class, 'showExplore'])->name('explore');
-
+// Route::get('/explore', [NewsController::class, 'showExplore'])->name('explore');
+Route::get('/explore', function (){
+    return view('explore');
+})->name('explore');
 
 
 

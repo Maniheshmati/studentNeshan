@@ -10,29 +10,24 @@ use App\Models\news;
 class NewsController extends Controller
 {
     function storeNews(){
-        $client = new Client();
-        $html = $client->request('GET', 'https://news.ycombinator.com/');
-        $crawler = new Crawler($html->getBody());
-        $span = $crawler->filter('.titleline')->each(function($node){
-            $title = $node->filter('a')->text();
-            $resource = $node->filter('span.sitestr')->text();
-            
-            $new = new news();
-            $status = news::where('title', $title)->get();
-            # Check if the news exist in database or not
-            if(!count($status) > 0){
-
-            
-
-                $new->title = $title;
-                $new->resource = $resource;
-                $new->save();
-            }            
-        });     
+        $latitudes = range(25, 40);
+        $longitudes = range(44, 62);
+        
+        foreach ($latitudes as $latitude) {
+            foreach ($longitudes as $longitude) {
+                $url = "https://neshan.org/maps/@{$latitude},{$longitude},6.0z,0.0p/search/%D9%85%D9%88%D8%B3%D8%B3%D9%87%20%D8%A2%D9%85%D9%88%D8%B2%D8%B4";
+                $response = new Client();
+                $html = $response->request('GET', $url);
+                $crawler = new Crawler($html->getBody());
+                
+    
+                }
+            }
+        }
+             
+        public function showExplore(){
+            $news = news::all();
+            return view('explore', ['news' => $news]);
+        }
     }
-    public function showExplore(){
-        $this->storeNews();
-        $news = news::all();
-        return view('explore', ['news' => $news]);
-    }
-}
+
