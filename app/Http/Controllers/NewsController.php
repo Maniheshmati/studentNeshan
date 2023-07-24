@@ -16,10 +16,10 @@ class NewsController extends Controller
         $span = $crawler->filter('.titleline')->each(function($node){
             $title = $node->filter('a')->text();
             $resource = $node->filter('span.sitestr')->text();
-            # Check if the news exist in database or not
             
             $new = new news();
             $status = news::where('title', $title)->get();
+            # Check if the news exist in database or not
             if(!count($status) > 0){
 
             
